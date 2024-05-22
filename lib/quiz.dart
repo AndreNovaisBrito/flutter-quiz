@@ -1,3 +1,4 @@
+import 'package:advanced_basics/data/questions.dart';
 import 'package:advanced_basics/questions_screen.dart';
 import 'package:advanced_basics/start_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  List<String> selectedAnswers = [];
   var activeScreen = 'start-screen';
 
   void switchScreen() {
@@ -19,12 +21,25 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  void chooseAnswer(String answer) {
+    selectedAnswers.add(answer);
+
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        selectedAnswers = [];
+        activeScreen = 'start-screen';
+      });
+    }
+  }
+
   @override
   Widget build(context) {
     Widget screenWidget = StartScreen(switchScreen);
 
     if (activeScreen == 'questions-screen') {
-      screenWidget = const QuestionsScreen();
+      screenWidget = QuestionsScreen(
+        onSelectAnswer: chooseAnswer,
+      );
     }
     return MaterialApp(
       home: Scaffold(
@@ -32,8 +47,8 @@ class _QuizState extends State<Quiz> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 87, 36, 175),
-                Color.fromARGB(255, 65, 24, 138),
+                Color.fromARGB(255, 63, 20, 137),
+                Color.fromARGB(255, 93, 42, 182),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
